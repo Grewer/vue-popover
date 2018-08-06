@@ -1,0 +1,27 @@
+{
+  "name": "vue-grewer-popover",
+  "version": "1.0.0",
+  "description": "popover component",
+  "main": "src/index.js",
+  "directories": {
+    "example": "example"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --mode production"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Grewer/vue-popover.git"
+  },
+  "keywords": [
+    "vue",
+    "popover"
+  ],
+  "author": "grewer",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Grewer/vue-popover/issues"
+  },
+  "homepage": "https://github.com/Grewer/vue-popover#readme"
+}

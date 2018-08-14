@@ -3,9 +3,6 @@
   "version": "1.0.0",
   "description": "popover component",
   "main": "src/index.js",
-  "directories": {
-    "example": "example"
-  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack --mode production"
@@ -23,5 +20,13 @@
   "bugs": {
     "url": "https://github.com/Grewer/vue-popover/issues"
   },
-  "homepage": "https://github.com/Grewer/vue-popover#readme"
+  "homepage": "https://github.com/Grewer/vue-popover#readme",
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.5",
+    "vue": "^2.5.17",
+    "vue-loader": "^15.3.0",
+    "vue-template-compiler": "^2.5.17",
+    "webpack": "^4.16.5"
+  }
 }

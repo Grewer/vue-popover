@@ -1,6 +1,5 @@
-// import Popover    from './Popover.vue'
-// import Tooltip    from './Tooltip.vue'
-// import { events } from './bus'
+import Popover    from './popover.vue'
+import { events } from './bus'
 
 const defaultPosition = 'bottom'
 
@@ -56,7 +55,7 @@ export default {
       events.$emit('hide', {srcEvent: event})
     })
 
-    // Vue.component('Popover', Popover)
+    Vue.component('Popover', Popover)
 
     Vue.directive('popover', {
       bind(target, binding) {

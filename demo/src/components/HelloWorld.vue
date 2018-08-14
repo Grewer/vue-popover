@@ -1,9 +1,11 @@
 <template>
     <div class="hello">
         <h1 v-popover=name>test trigger</h1>
-        <h1 v-popover={name:'foo2',trigger:'hover'}>test trigger</h1>
+        <h1 v-popover="{name:'foo2',trigger:'hover'}">test trigger2</h1>
         <button @click="handleToggle">toggle</button>
         <h3>Installed CLI Plugins</h3>
+        <p> 下方是 popover 测试</p>
+        <Popover></Popover>
     </div>
 </template>
 

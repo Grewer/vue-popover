@@ -1,22 +1,22 @@
-import Popover    from './popover.vue'
-import { events } from './bus'
+import Popover from './popover.vue'
+import {events} from './bus'
 
-const defaultPosition = 'bottom'
+// const defaultPosition = 'bottom'
 
-const prepareBinding = ({ arg = '', modifiers = {}, value = {} }) => {
-  let mods = Object.keys(modifiers)
-  let name = typeof value === 'object' && value.name ? value.name : arg
-  let position = mods[0] || value.position || defaultPosition
+const prepareBinding = ({modifiers = {}, value = {}}) => {
+  let mods = Object.keys(modifiers) // 修饰符
+  let name = typeof value === 'object' && value.name || value
+  let trigger = mods[0] || value.trigger || 'click'
 
-  return { name, position, value }
+  return {name, trigger, value}
 }
 
 const addClickEventListener = (target, params) => {
   const click = (srcEvent) => {
-    events.$emit('show:click', { ...params, target, srcEvent })
+    events.$emit('show:click', {...params, target, srcEvent})
 
     let handler = (srcEvent) => {
-      events.$emit('hide:click', { ...params, target, srcEvent })
+      events.$emit('hide:click', {...params, target, srcEvent})
       document.removeEventListener('click', handler)
     }
 
@@ -33,11 +33,11 @@ const addClickEventListener = (target, params) => {
 
 const addHoverEventListener = (target, params) => {
   const mouseenter = (srcEvent) => {
-    events.$emit('show:hover', { ...params, target, srcEvent })
+    events.$emit('show:hover', {...params, target, srcEvent})
   }
 
   const mouseleave = (srcEvent) => {
-    events.$emit('hide:hover', { ...params, target, srcEvent })
+    events.$emit('hide:hover', {...params, target, srcEvent})
   }
 
   target.addEventListener('mouseenter', mouseenter)
@@ -64,13 +64,16 @@ export default {
         // 如果为 v-popover=name   name='foo' 这种格式:
         // 则binding.value = 'foo'
 
+        let params = prepareBinding(binding)
+        // {name, trigger, value}
+        // name 名 ? name 仍需加强联系
+        // trigger 触发 ? 是否需要
+        // value 将质量的 value 传下去
 
-
-
-        // let params = prepareBinding(binding)
-        //
-        // addClickEventListener(target, params)
-        // addHoverEventListener(target, params)
+        console.log(params)
+        params.trigger === 'click' ?
+          addClickEventListener(target, params) :
+          addHoverEventListener(target, params)
       },
       update(target, binding) {
         console.log('update', target, binding)
@@ -80,8 +83,8 @@ export default {
       },
       unbind(target, binding) {
         console.log('unbind')
-        target.$popoverRemoveHoverHandlers()
-        target.$popoverRemoveClickHandlers()
+        target.$popoverRemoveHoverHandlers && target.$popoverRemoveHoverHandlers()
+        target.$popoverRemoveClickHandlers && target.$popoverRemoveClickHandlers()
       }
     })
   }

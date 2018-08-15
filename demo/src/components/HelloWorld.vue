@@ -9,7 +9,8 @@
         <h3>Installed CLI Plugins</h3>
         <p> 下方是 popover 测试</p>
         <Popover name="foo"></Popover>
-        <Popover name="foo2" event="hover"></Popover>
+        <Popover name="foo2" ></Popover>
+        <Popover name="foo3" ></Popover>
     </div>
 </template>
 

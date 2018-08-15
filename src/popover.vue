@@ -16,14 +16,10 @@
         visible: false
       }
     },
-    props:{
+    props: {
       name: {
         type: String,
         required: true
-      },
-      event: {
-        type: String,
-        default: 'click'
       }
     },
     mounted() {
@@ -36,10 +32,10 @@
     },
     computed: {
       showEventName() {
-        return `show:${this.event}`
+        return `${this.name}:show`
       },
       hideEventName() {
-        return `hide:${this.event}`
+        return `${this.name}:hide`
       },
     },
     render(h) {

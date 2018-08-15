@@ -13,10 +13,10 @@ const prepareBinding = ({modifiers = {}, value = {}}) => {
 
 const addClickEventListener = (target, params) => {
   const click = (srcEvent) => {
-    events.$emit('show:click', {...params, target, srcEvent})
+    events.$emit(params.name + ':show', {...params, target, srcEvent})
 
     let handler = (srcEvent) => {
-      events.$emit('hide:click', {...params, target, srcEvent})
+      events.$emit(params.name + ':hide', {...params, target, srcEvent})
       document.removeEventListener('click', handler)
     }
 
@@ -33,11 +33,11 @@ const addClickEventListener = (target, params) => {
 
 const addHoverEventListener = (target, params) => {
   const mouseenter = (srcEvent) => {
-    events.$emit('show:hover', {...params, target, srcEvent})
+    events.$emit(params.name + ':show', {...params, target, srcEvent})
   }
 
   const mouseleave = (srcEvent) => {
-    events.$emit('hide:hover', {...params, target, srcEvent})
+    events.$emit(params.name + ':hide', {...params, target, srcEvent})
   }
 
   target.addEventListener('mouseenter', mouseenter)

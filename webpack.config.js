@@ -19,6 +19,10 @@ module.exports = {
         options: {
           presets: ['es2015']
         }
+      },
+      {
+        test: /\.less$/,
+        loader: "less-loader"
       }
     ]
   },

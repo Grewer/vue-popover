@@ -8,9 +8,15 @@
         <h1 v-popover.hover="{name:'foo3'}">修饰符中的触发方式</h1>
         <h3>Installed CLI Plugins</h3>
         <p> 下方是 popover 测试</p>
-        <Popover name="foo"></Popover>
-        <Popover name="foo2" ></Popover>
-        <Popover name="foo3" ></Popover>
+        <Popover name="foo">
+            <div>popover foo slot</div>
+        </Popover>
+        <Popover name="foo2">
+            <div>popover foo2 slot</div>
+        </Popover>
+        <Popover name="foo3">
+            <div>popover foo3 slot</div>
+        </Popover>
     </div>
 </template>
 

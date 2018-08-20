@@ -3,16 +3,15 @@
 
   const pointerSize = 6
   const directions = {
-    left: [-1, 0],
-    right: [1, 0],
-    top: [0, 1],
-    bottom: [0, -1]
+    left: [1, 0],
+    right: [-1, 0],
+    top: [0, -1],
+    bottom: [0, 1]
   }
   export default {
     name: "popover",
     methods: {
       showEventListener(event) {
-        console.log('show trigger')
         if (this.visible) {
           events.$emit(this.hideEventName)
           return
@@ -63,31 +62,38 @@
         })
       },
       getDropdownPosition(target, dropdown, direction) {
-        let trRect = target.getBoundingClientRect()
-        let ddRect = dropdown.getBoundingClientRect()
-        // Position within the parent
+        let trRect = target.getBoundingClientRect() // 触发器的坐标(距离浏览器显示界面的长度)
+        let ddRect = dropdown.getBoundingClientRect() // popover 的坐标(距离浏览器显示界面的长度)
+
         let offsetLeft = trRect.left
         let offsetTop = trRect.top
-        // let shiftX = ddRect.width - trRect.width
+        // 触发器距离左上的长度
+
         let shiftY = 0.5 * (ddRect.height + trRect.height)
-        // Center of the target element
+        // 触发器和 popover 的平均高度
+
         let centerX = offsetLeft - 0.5 * (ddRect.width - trRect.width)
         let centerY = offsetTop + trRect.height - shiftY
-        // let anchorX = direction[0] * this.anchor
-        // let anchorY = direction[0] * this.anchor
-        // Position of the dropdown relatively to target
+        // 触发器的中心点    y不一定是触发器中心点
+         console.log(centerY,centerX)
         let x = direction[0] * 0.5 * (ddRect.width + trRect.width)
         let y = direction[1] * shiftY
-        // Pointer size correction
-        if (this.pointer) {
+        // 偏移长度  根据需要显示的上下左右位置来产生 x,y
+        // 如 下=> 0,1  x=0 表示不需要偏移 ,y = shiftY 表示像下偏移  shiftY 的长度
+        // 其他位置同理
+
+        if (this.pointer) { // 是否需要开启 pointer
           x += direction[0] * pointerSize
           y += direction[1] * pointerSize
-        }
-        const scrollLeft = this.getScrollLeft()
+        } // 如果需要加上箭头 则需要额外的 6px 的长度,与上方同理,分别对偏移量进行加减
+
+        const scrollLeft = this.getScrollLeft() // 页面卷曲偏移度
+
         return {
           left: centerX + x + scrollLeft,
-          top: centerY - y
+          top: centerY + y
         }
+        // 返回 popover 的位置 中心位置 加上 x,y 的偏移度
       },
       getScrollLeft() {
         let obj = ((obj = document.documentElement) || (obj = document.body.parentNode)) && typeof obj.scrollLeft === 'number' ? obj : document.body
@@ -180,7 +186,7 @@
         display: block;
         position: absolute;
         background: #fff;
-        box-shadow: 0px 4px 20px 0px rgba(52, 73, 94, 0.2);
+        box-shadow: 0 4px 20px 0 rgba(52, 73, 94, 0.2);
         padding: 5px;
         border-radius: 5px;
         z-index: 998;

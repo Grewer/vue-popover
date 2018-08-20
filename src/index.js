@@ -7,8 +7,8 @@ const prepareBinding = ({modifiers = {}, value = {}}) => {
   let mods = Object.keys(modifiers) // 修饰符
   let name = typeof value === 'object' && value.name || value
   let trigger = mods[0] || value.trigger || 'click'
-
-  return {name, trigger, value}
+  let position = value.position || 'bottom'
+  return {name, trigger, value, position}
 }
 
 const addClickEventListener = (target, params) => {
@@ -69,6 +69,7 @@ export default {
         // name 名 ? name 仍需加强联系
         // trigger 触发 ? 是否需要
         // value 将质量的 value 传下去
+        // position 位置 默认为下
 
         console.log(params)
         params.trigger === 'click' ?

@@ -66,12 +66,12 @@ export default {
 
         let params = prepareBinding(binding)
         // {name, trigger, value}
-        // name 名 ? name 仍需加强联系
-        // trigger 触发 ? 是否需要
+        // name 名  name 仍需加强联系
+        // trigger 触发  是否需要
         // value 将质量的 value 传下去
-        // position 位置 默认为下
+        // position 位置 默认为'bottom
 
-        console.log(params)
+        // console.log(params)
         params.trigger === 'click' ?
           addClickEventListener(target, params) :
           addHoverEventListener(target, params)

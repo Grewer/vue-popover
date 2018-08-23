@@ -3,8 +3,8 @@
 
   const pointerSize = 6
   const directions = {
-    left: [1, 0],
-    right: [-1, 0],
+    left: [-1, 0],
+    right: [1, 0],
     top: [0, -1],
     bottom: [0, 1]
   }
@@ -22,7 +22,6 @@
           if (name === this.name) {
             this.delayFunc = setTimeout(() => {
               let direction = directions[position]
-              this.positionClass = `dropdown-position-${position}`
               this.visible = true
               this.$nextTick(() => {
                 this.$emit('show', event)
@@ -65,6 +64,9 @@
         let trRect = target.getBoundingClientRect() // 触发器的坐标(距离浏览器显示界面的长度)
         let ddRect = dropdown.getBoundingClientRect() // popover 的坐标(距离浏览器显示界面的长度)
 
+        console.log(ddRect)
+        console.log('trigger', trRect)
+
         let offsetLeft = trRect.left
         let offsetTop = trRect.top
         // 触发器距离左上的长度
@@ -72,10 +74,40 @@
         let shiftY = 0.5 * (ddRect.height + trRect.height)
         // 触发器和 popover 的平均高度
 
+
+
         let centerX = offsetLeft - 0.5 * (ddRect.width - trRect.width)
         let centerY = offsetTop + trRect.height - shiftY
-        // 触发器的中心点    y不一定是触发器中心点
-         console.log(centerY,centerX)
+        // 触发器的 left 坐标    y不一定是触发器中心点
+
+
+        this.arrowPosition = 50
+
+        if (this.autoFix) {
+          if (centerX < 0) {
+            this.arrowPosition = (50 + Number(centerX / (ddRect.width) * 100)).toFixed(2)
+            this.arrowPosition < 0 && (this.arrowPosition = 0)
+            centerX = 0
+          }
+          // 右边距 和 window.innerWidth 比较
+          console.log(centerX)
+        }
+
+
+        // if(this.theEvent.position === 'bottom'){
+        //   direction = directions['top'] class 的问题未解决
+        // }
+        console.log(this.theEvent.position)
+
+        // todo 检测 首先判断是否开启 autofix  若开启则
+        // 首先判断是向下还是向上
+        // 向下的话 计算距离下部的长度 和 shiftY 对比 若小 则方向相反
+        // 向上同理
+        // 计算 arrow 的偏移值
+        // 若 ddRect 的宽度/2 和 trRect 距离左边的长度 进行对比 若大于 则进行偏移 偏移度为
+        // (宽度/2-trRect.left) / 宽度 // 后续验证
+        // 右边的长度同理
+
         let x = direction[0] * 0.5 * (ddRect.width + trRect.width)
         let y = direction[1] * shiftY
         // 偏移长度  根据需要显示的上下左右位置来产生 x,y
@@ -87,30 +119,30 @@
           y += direction[1] * pointerSize
         } // 如果需要加上箭头 则需要额外的 6px 的长度,与上方同理,分别对偏移量进行加减
 
-        const scrollLeft = this.getScrollLeft() // 页面卷曲偏移度
+        const scroll = this.getScroll() // 页面卷曲偏移度
 
         return {
-          left: centerX + x + scrollLeft,
-          top: centerY + y
+          left: centerX + x + scroll.x,
+          top: centerY + y + scroll.y
         }
         // 返回 popover 的位置 中心位置 加上 x,y 的偏移度
       },
-      getScrollLeft() {
+      getScroll() {
         let obj = ((obj = document.documentElement) || (obj = document.body.parentNode)) && typeof obj.scrollLeft === 'number' ? obj : document.body
-        this.getScrollLeft = () => obj.scrollLeft
-        return obj.scrollLeft
+        this.getScroll = () => ({x: obj.scrollLeft, y: obj.scrollTop})
+        return {x: obj.scrollLeft, y: obj.scrollTop}
       }
     },
     data() {
       return {
         visible: false,
-        positionClass: '',
         position: {
           left: 0,
           top: 0
         },
         delayFunc: null,
-        theEvent: null
+        theEvent: null,
+        arrowPosition: 50
       }
     },
     props: {
@@ -118,18 +150,20 @@
         type: String,
         required: true
       },
+      width: {
+        type: Number,
+      },
       pointer: {
         type: Boolean,
         default: true
       },
-      anchor: {
-        type: Number,
-        default: 0.5,
-        validator: (v) => v >= 0 && v <= 1
-      },
       delay: {
         type: Number,
         default: 0
+      },
+      autoFix: {
+        type: Boolean,
+        default: false
       }
     },
     mounted() {
@@ -149,15 +183,23 @@
       },
       className() {
         return [
+          this.pointer && this.positionClass,
           'vue-popover',
-          this.pointer && this.positionClass
         ]
       },
       style() {
-        return {
-          width: `${this.width}px`,
-          ...this.position
-        }
+        let selfStyle = this.position
+        this.width && (selfStyle.width = `${this.width}px`)
+        return selfStyle
+      },
+      arrow() {
+        const position = this.theEvent.position
+        return position === 'bottom' || position === 'top' ? {
+          left: `calc(${this.arrowPosition}% - 6px)`
+        } : {top: 'calc(50% - 6px)'}
+      },
+      positionClass() {
+        return `dropdown-position-${this.theEvent.position}`
       }
     },
     render(h) {
@@ -174,7 +216,10 @@
           },
           ref: 'dropdown'
         },
-        this.$slots.default
+        [h('i', {
+          style: this.arrow
+        }),
+          this.$slots.default]
       )
     }
   }
@@ -190,50 +235,43 @@
         padding: 5px;
         border-radius: 5px;
         z-index: 998;
-        &:before {
+        i {
             display: block;
             position: absolute;
-            width: 0;
-            height: 0;
-            content: "";
         }
         &.dropdown-position-bottom {
-            &:before {
+            i {
                 border-left: @pointer-size solid transparent;
                 border-right: @pointer-size solid transparent;
                 border-bottom: @pointer-size solid #fff;
                 top: -6px;
-                left: calc(50% - 6px);
                 filter: drop-shadow(0px -2px 2px rgba(52, 73, 94, 0.1));
             }
         }
         &.dropdown-position-top {
-            &:before {
+            i {
                 border-left: @pointer-size solid transparent;
                 border-right: @pointer-size solid transparent;
                 border-top: @pointer-size solid #fff;
                 bottom: -6px;
-                left: calc(50% - 6px);
                 filter: drop-shadow(0px 2px 2px rgba(52, 73, 94, 0.1));
             }
         }
         &.dropdown-position-left {
-            &:before {
+            i {
                 border-top: @pointer-size solid transparent;
                 border-bottom: @pointer-size solid transparent;
                 border-left: @pointer-size solid #fff;
                 right: -6px;
-                top: calc(50% - 6px);
                 filter: drop-shadow(2px 0px 2px rgba(52, 73, 94, 0.1));
             }
         }
         &.dropdown-position-right {
-            &:before {
+            i {
                 border-top: @pointer-size solid transparent;
                 border-bottom: @pointer-size solid transparent;
                 border-right: @pointer-size solid #fff;
                 left: -6px;
-                top: calc(50% - 6px);
                 filter: drop-shadow(-2px 0px 2px rgba(52, 73, 94, 0.1));
             }
         }

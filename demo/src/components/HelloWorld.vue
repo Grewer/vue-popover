@@ -1,21 +1,67 @@
 <template>
-    <div class="hello">
-        <h1 v-popover=name>动态名称 test </h1>
-        <button @click="handleToggle">toggle</button>
+    <div>
+        <div class="box">
+            <h3>position</h3>
+            <span v-popover.hover="{name:'foo',position:'top'}">top</span>
+            <span v-popover="{name:'foo2',trigger:'hover',position:'bottom'}">bottom</span>
+            <span v-popover.hover="{name:'foo3',position:'left'}">left</span>
+            <span v-popover.hover="{name:'foo4',position:'right'}">right</span>
+        </div>
+        <div class="box">
+            <h3>trigger</h3>
+            <span v-popover="'clickMe'">click me!</span>
+        </div>
+        <div class="box">
+            <h3>animation</h3>
+            <span v-popover="'animation'">click me to show animation</span>
+        </div>
 
-        <h1 v-popover="{name:'foo2',trigger:'hover'}">obj 中的触发方式</h1>
+        <div class="box">
+            <h3>your className</h3>
+            <span v-popover="'className'">add your className</span>
+        </div>
 
-        <h1 v-popover.hover="{name:'foo3'}">修饰符中的触发方式</h1>
-        <h3>Installed CLI Plugins</h3>
-        <p> 下方是 popover 测试</p>
+        <div class="box">
+            <h3>autoFix (default Close) (now developing!!)</h3>
+            <span style="position:relative;left:-90px;" v-popover="'autoFix1'">fixLeft click me</span>
+            <span style="position:relative;right: -81%;" v-popover="'autoFix2'">fixRight click me</span>
+        </div>
+
         <Popover name="foo">
-            <div>popover foo slot</div>
+            <div>show on top</div>
         </Popover>
+
         <Popover name="foo2">
-            <div>popover foo2 slot</div>
+            <div>show on bottom</div>
         </Popover>
+
         <Popover name="foo3">
-            <div>popover foo3 slot</div>
+            <div>show on left</div>
+        </Popover>
+
+        <Popover name="foo4">
+            <div>show on right</div>
+        </Popover>
+
+        <Popover name="clickMe">
+            <div>show after click</div>
+        </Popover>
+
+        <transition name="pop-out">
+            <Popover name="animation">
+                <div>show animation</div>
+            </Popover>
+        </transition>
+
+        <Popover name="className" class="myClass">
+            <div>font color change</div>
+        </Popover>
+
+        <Popover name="autoFix1" :auto-fix="true">
+            <div>autoFix1 ~~~~~~~</div>
+        </Popover>
+        <Popover name="autoFix2" autoFix>
+            <div>autoFix1 ~~~~~~~</div>
         </Popover>
     </div>
 </template>
@@ -25,7 +71,7 @@
     name: 'HelloWorld',
     data() {
       return {
-        name: 'foo'
+        name: 'foo3'
       }
     },
     methods: {
@@ -41,21 +87,24 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-    h3 {
-        margin: 40px 0 0;
+    .box {
+        margin: 40px 60px;
     }
 
-    ul {
-        list-style-type: none;
-        padding: 0;
+    .box > span {
+        margin: 0 30px;
     }
 
-    li {
-        display: inline-block;
-        margin: 0 10px;
+    .pop-out-enter-active, .pop-out-leave-active {
+        transition: transform 1s, opacity 0.7s;
     }
 
-    a {
-        color: #42b983;
+    .pop-out-enter, .pop-out-leave-to {
+        opacity: 0;
+        transform: translate(0, 20px);
+    }
+
+    .myClass{
+        color: #31700e;
     }
 </style>

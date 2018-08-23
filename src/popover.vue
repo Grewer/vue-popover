@@ -97,7 +97,7 @@
         // if(this.theEvent.position === 'bottom'){
         //   direction = directions['top'] class 的问题未解决
         // }
-        console.log(this.theEvent.position)
+        // console.log(this.theEvent.position)
 
         // todo 检测 首先判断是否开启 autofix  若开启则
         // 首先判断是向下还是向上
@@ -128,7 +128,8 @@
         // 返回 popover 的位置 中心位置 加上 x,y 的偏移度
       },
       getScroll() {
-        let obj = ((obj = document.documentElement) || (obj = document.body.parentNode)) && typeof obj.scrollLeft === 'number' ? obj : document.body
+        let obj
+        obj = ((obj = document.documentElement) || (obj = document.body.parentNode)) && typeof obj.scrollLeft === 'number' ? obj : document.body
         this.getScroll = () => ({x: obj.scrollLeft, y: obj.scrollTop})
         return {x: obj.scrollLeft, y: obj.scrollTop}
       }

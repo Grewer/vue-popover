@@ -4,3 +4,4 @@
 
 [Original project link](https://github.com/euvl/vue-js-popover)
 
+demo: [click Me](https://grewer.github.io/vue-popover/demo/dist/)

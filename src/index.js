@@ -49,6 +49,18 @@ const addHoverEventListener = (target, params) => {
   }
 }
 
+function unBind(target) {
+  target.$popoverRemoveHoverHandlers && target.$popoverRemoveHoverHandlers()
+  target.$popoverRemoveClickHandlers && target.$popoverRemoveClickHandlers()
+}
+
+function bind(target, binding) {
+  let params = prepareBinding(binding)
+  params.trigger === 'click' ?
+    addClickEventListener(target, params) :
+    addHoverEventListener(target, params)
+}
+
 export default {
   install(Vue, params = {}) {
     document.addEventListener('resize', (event) => {
@@ -64,28 +76,29 @@ export default {
         // 如果为 v-popover=name   name='foo' 这种格式:
         // 则binding.value = 'foo'
 
-        let params = prepareBinding(binding)
         // {name, trigger, value}
         // name 名  name 仍需加强联系
         // trigger 触发  是否需要
         // value 将质量的 value 传下去
         // position 位置 默认为'bottom
 
-        // console.log(params)
-        params.trigger === 'click' ?
-          addClickEventListener(target, params) :
-          addHoverEventListener(target, params)
+        bind(target, binding)
       },
       update(target, binding) {
-        console.log('update', target, binding)
         if (binding.value !== binding.oldValue) {
           // 暂定  绑定的值发生变化
+          if (binding.value.name && (binding.value.name !== binding.oldValue.name)) {
+            unBind(target)
+            bind(target, binding)
+          } else if (typeof binding.value !== 'object' && binding.value !== binding.oldValue) {
+            unBind(target)
+            bind(target, binding)
+
+          }
         }
       },
       unbind(target, binding) {
-        console.log('unbind')
-        target.$popoverRemoveHoverHandlers && target.$popoverRemoveHoverHandlers()
-        target.$popoverRemoveClickHandlers && target.$popoverRemoveClickHandlers()
+        unBind(target)
       }
     })
   }

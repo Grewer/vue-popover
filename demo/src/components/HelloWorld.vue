@@ -22,9 +22,15 @@
         </div>
 
         <div class="box">
-            <h3>autoFix (default Close) (now developing!!)</h3>
+            <h3>autoFix (default Close)</h3>
             <span style="position:relative;left:-90px;" v-popover="'autoFix1'">fixLeft click me</span>
             <span style="position:relative;right: -81%;" v-popover="'autoFix2'">fixRight click me</span>
+        </div>
+
+        <div class="box">
+            <h3>dynamic</h3>
+            <span v-popover="dynamicName">dynamic name popover</span>
+            <button @click="handleToggle"> change bind name</button>
         </div>
 
 
@@ -65,6 +71,13 @@
             <div>autoFix1 ~~~~~~~</div>
         </Popover>
 
+        <Popover name="bar" autoFix>
+            <div>this is dynamic bar ~~~~~~~</div>
+        </Popover>
+        <Popover name="bar2" autoFix>
+            <div>this is dynamic bar2~~~~~~~</div>
+        </Popover>
+
     </div>
 </template>
 
@@ -73,12 +86,13 @@
     name: 'HelloWorld',
     data() {
       return {
-        name: 'foo3'
+        name: 'foo3',
+        dynamicName: 'bar'
       }
     },
     methods: {
       handleToggle() {
-        this.name = 'bar'
+        this.dynamicName = this.dynamicName === 'bar2' ? 'bar' : 'bar2'
       }
     },
     props: {

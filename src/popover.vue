@@ -26,8 +26,7 @@
               this.$nextTick(() => {
                 this.$emit('show', event)
                 this.$nextTick(() => {
-                  let position = this
-                    .getDropdownPosition(target, this.$refs.dropdown, direction)
+                  let position = this.getDropdownPosition(target, this.$refs.dropdown, direction)
                   this.position = {
                     left: `${position.left}px`,
                     top: `${position.top}px`
@@ -84,29 +83,21 @@
         this.arrowPosition = 50
 
         if (this.autoFix) {
-          if (centerX < 0) {
-            this.arrowPosition = (50 + Number(centerX / (ddRect.width) * 100)).toFixed(2)
-            this.arrowPosition < 0 && (this.arrowPosition = 0)
-            centerX = 0
+          const {position} = this.theEvent
+          if (position === 'bottom' || position === 'top') {
+            const ddWidth = ddRect.width
+            if (centerX < 0) {
+              this.arrowPosition = (50 + Number(centerX / (ddWidth) * 100)).toFixed(2)
+              this.arrowPosition < 0 && (this.arrowPosition = (8 / ddWidth * 100).toFixed(2))
+              centerX = 0
+            } else if ((window.innerWidth - trRect.right) < ddWidth / 2) {
+              this.arrowPosition = (50 + (centerX - (window.innerWidth - ddWidth)) / ddWidth * 100).toFixed(2)
+              this.arrowPosition > 100 && (this.arrowPosition = ((ddWidth - 8) / ddWidth * 100).toFixed(2))
+              centerX = window.innerWidth - ddWidth
+            }
           }
-          // 右边距 和 window.innerWidth 比较
-          console.log(centerX)
         }
 
-
-        // if(this.theEvent.position === 'bottom'){
-        //   direction = directions['top'] class 的问题未解决
-        // }
-        // console.log(this.theEvent.position)
-
-        // todo 检测 首先判断是否开启 autofix  若开启则
-        // 首先判断是向下还是向上
-        // 向下的话 计算距离下部的长度 和 shiftY 对比 若小 则方向相反
-        // 向上同理
-        // 计算 arrow 的偏移值
-        // 若 ddRect 的宽度/2 和 trRect 距离左边的长度 进行对比 若大于 则进行偏移 偏移度为
-        // (宽度/2-trRect.left) / 宽度 // 后续验证
-        // 右边的长度同理
 
         let x = direction[0] * 0.5 * (ddRect.width + trRect.width)
         let y = direction[1] * shiftY
@@ -152,7 +143,7 @@
         required: true
       },
       width: {
-        type: Number,
+        type: [String, Number],
       },
       pointer: {
         type: Boolean,

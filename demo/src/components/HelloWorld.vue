@@ -27,6 +27,7 @@
             <span style="position:relative;right: -81%;" v-popover="'autoFix2'">fixRight click me</span>
         </div>
 
+
         <Popover name="foo">
             <div>show on top</div>
         </Popover>
@@ -60,9 +61,10 @@
         <Popover name="autoFix1" :auto-fix="true">
             <div>autoFix1 ~~~~~~~</div>
         </Popover>
-        <Popover name="autoFix2" autoFix>
+        <Popover name="autoFix2" width="200" autoFix>
             <div>autoFix1 ~~~~~~~</div>
         </Popover>
+
     </div>
 </template>
 
@@ -104,7 +106,7 @@
         transform: translate(0, 20px);
     }
 
-    .myClass{
+    .myClass {
         color: #31700e;
     }
 </style>

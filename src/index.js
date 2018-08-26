@@ -1,7 +1,6 @@
 import Popover from './popover.vue'
 import {events} from './bus'
 
-// const defaultPosition = 'bottom'
 
 const prepareBinding = ({modifiers = {}, value = {}}) => {
   let mods = Object.keys(modifiers) // 修饰符
@@ -71,7 +70,6 @@ export default {
 
     Vue.directive('popover', {
       bind(target, binding) {
-        console.log('bind', target, binding)
         // 例子1:
         // 如果为 v-popover=name   name='foo' 这种格式:
         // 则binding.value = 'foo'
@@ -86,14 +84,12 @@ export default {
       },
       update(target, binding) {
         if (binding.value !== binding.oldValue) {
-          // 暂定  绑定的值发生变化
           if (binding.value.name && (binding.value.name !== binding.oldValue.name)) {
             unBind(target)
             bind(target, binding)
           } else if (typeof binding.value !== 'object' && binding.value !== binding.oldValue) {
             unBind(target)
             bind(target, binding)
-
           }
         }
       },

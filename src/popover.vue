@@ -63,9 +63,6 @@
         let trRect = target.getBoundingClientRect() // 触发器的坐标(距离浏览器显示界面的长度)
         let ddRect = dropdown.getBoundingClientRect() // popover 的坐标(距离浏览器显示界面的长度)
 
-        console.log(ddRect)
-        console.log('trigger', trRect)
-
         let offsetLeft = trRect.left
         let offsetTop = trRect.top
         // 触发器距离左上的长度

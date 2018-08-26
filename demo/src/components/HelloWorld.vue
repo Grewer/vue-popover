@@ -33,6 +33,11 @@
             <button @click="handleToggle"> change bind name</button>
         </div>
 
+        <div class="box">
+            <h3>delay</h3>
+            <span v-popover.hover="'delay'">show delay</span>
+        </div>
+
 
         <Popover name="foo">
             <div>show on top</div>
@@ -76,6 +81,11 @@
         </Popover>
         <Popover name="bar2" autoFix>
             <div>this is dynamic bar2~~~~~~~</div>
+        </Popover>
+
+
+        <Popover name="delay" :delay="300">
+            <div>delay after 300ms ~~~~~~~</div>
         </Popover>
 
     </div>

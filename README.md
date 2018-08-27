@@ -4,12 +4,28 @@
 
 [Original project link](https://github.com/euvl/vue-js-popover)
 
-demo: [click Me](https://grewer.github.io/vue-popover/demo/dist/)
+
+
+**demo: [click Me](https://grewer.github.io/vue-popover/demo/dist/)**
+
+### Download
+
+```bash
+npm i -S vue-grewer-popover
+```
+
+main.js
+```js
+import VuePopover from 'vue-grewer-popover'
+
+Vue.use(VuePopover)
+```
+
 
 ### Basic Usage
 
 
-```html
+```
 <span v-popover="'clickMe'">click me!</span>
 
 <Popover name="clickMe">
@@ -19,7 +35,7 @@ demo: [click Me](https://grewer.github.io/vue-popover/demo/dist/)
 
 #### hover trigger:
 
-```html
+```
 <span v-popover.hover="{name:'foo3'}">bottom</span>
 // or  <span v-popover="{name:'foo3',trigger:'hover'}">bottom</span>
 
@@ -30,7 +46,7 @@ demo: [click Me](https://grewer.github.io/vue-popover/demo/dist/)
 
 #### direction
 
-```html
+```
 <span v-popover.hover="{name:'foo',position:'top'}">top</span>
 <span v-popover="{name:'foo2',trigger:'hover',position:'bottom'}">bottom</span>
 <span v-popover.hover="{name:'foo3',position:'left'}">left</span>
@@ -55,7 +71,7 @@ demo: [click Me](https://grewer.github.io/vue-popover/demo/dist/)
 ```
 
 #### animation
-```html
+```
 <span v-popover="'animation'">click me to show animation</span>
  
 <transition name="pop-out">
@@ -77,7 +93,7 @@ css:
 ```
 
 #### dynamic popover
-```html
+```
 <span v-popover="dynamicName">dynamic name popover</span>
 <button @click="handleToggle"> change bind name</button>
 

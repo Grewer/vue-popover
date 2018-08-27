@@ -62,10 +62,6 @@ function bind(target, binding) {
 
 export default {
   install(Vue, params = {}) {
-    document.addEventListener('resize', (event) => {
-      events.$emit('hide', {srcEvent: event})
-    })
-
     Vue.component('Popover', Popover)
 
     Vue.directive('popover', {

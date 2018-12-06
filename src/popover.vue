@@ -61,7 +61,10 @@
       },
       getDropdownPosition(target, dropdown, direction) {
         let trRect = target.getBoundingClientRect() // 触发器的坐标(距离浏览器显示界面的长度)
-        let ddRect = dropdown.getBoundingClientRect() // popover 的坐标(距离浏览器显示界面的长度)
+        if (!dropdown) {
+          return;
+        }
+        let ddRect = dropdown.getBoundingClientRect()// popover 的坐标(距离浏览器显示界面的长度)
 
         let offsetLeft = trRect.left
         let offsetTop = trRect.top

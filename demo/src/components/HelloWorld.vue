@@ -29,7 +29,7 @@
 
         <div class="box">
             <h3>dynamic</h3>
-            <span v-popover="dynamicName">dynamic name popover</span>
+            <span v-popover.hover="dynamicName">dynamic name popover</span>
             <button @click="handleToggle"> change bind name</button>
         </div>
 

@@ -1,6 +1,6 @@
 {
   "name": "vue-grewer-popover",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "popover component",
   "main": "dist/popover.js",
   "scripts": {

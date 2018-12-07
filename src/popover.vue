@@ -53,6 +53,9 @@
         this.$nextTick(() => {
           let position = this
             .getDropdownPosition(target, this.$refs.dropdown, direction)
+          if (!position) {
+            return;
+          }
           this.position = {
             left: `${position.left}px`,
             top: `${position.top}px`

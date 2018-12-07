@@ -43,8 +43,8 @@ const addHoverEventListener = (target, params) => {
   target.addEventListener('mouseleave', mouseleave, false)
 
   target.$popoverRemoveHoverHandlers = () => {
-    target.removeEventListener('mouseenter', mouseenter)
-    target.removeEventListener('mouseleave', mouseleave)
+    target.removeEventListener('mouseenter', mouseenter, false)
+    target.removeEventListener('mouseleave', mouseleave, false)
   }
 }
 
